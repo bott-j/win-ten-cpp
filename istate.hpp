@@ -28,15 +28,15 @@
 class IState
 {
 public:
-	vector2d<double> player;
-	vector2d<double> npc;
-	vector2d<double> ball;
+	vector2d<float> player;
+	vector2d<float> npc;
+	vector2d<float> ball;
 	std::string message;
 	int scorePlayer;
 	int scoreNpc;
 
 	virtual IState *update(
-		double deltaT,
+		float deltaT,
 		bool keyUp,
 		bool keyDown,
 		bool keyEscape,

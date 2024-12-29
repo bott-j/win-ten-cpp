@@ -238,7 +238,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
         int width = lParam & 0x0000FFFF;
         int height = (lParam & 0xFFFF0000) >> 16;
-        float aspectRatio = 640.0 / 480.0;
         int newHeight;
         int newWidth;
         int newXOffset;
@@ -252,16 +251,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // Restored
         case SIZE_MAXIMIZED:
         {
-            if (static_cast<float>(width) / static_cast<float>(height) > aspectRatio)
+            if (static_cast<float>(width) / static_cast<float>(height) > winten_constants::ASPECT_RATIO)
             {
                 newHeight = height;
-                newWidth = aspectRatio * height;
+                newWidth = static_cast<int>(winten_constants::ASPECT_RATIO * height);
                 newXOffset = (width - newWidth) / 2;
                 newYOffset = 0;
             }
             else
             {
-                newHeight = width / aspectRatio;
+                newHeight = static_cast<int>(width / winten_constants::ASPECT_RATIO);
                 newWidth = width;
                 newXOffset = 0;
                 newYOffset = (height - newHeight) / 2;

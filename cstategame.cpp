@@ -39,7 +39,7 @@ CStateGame::CStateGame()
     scorePlayer = 0;
 
     // Seed the random number generator with current time
-    std::srand(std::time(0));
+    std::srand(static_cast<unsigned int>(std::time(0)));
 }
 
 /// <summary>
@@ -52,7 +52,7 @@ CStateGame::CStateGame()
 /// <param name="keyPressed">True if any key pressed.</param>
 /// <returns>The next state.</returns>
 IState* CStateGame::update(
-    double deltaT,
+    float deltaT,
     bool keyUp,
     bool keyDown,
     bool keyEscape,
@@ -76,20 +76,20 @@ IState* CStateGame::update(
 void CStateGame::updatePlayer(
     bool keyUp, 
     bool keyDown, 
-    vector2d<double>& paddle, 
-    double delta)
+    vector2d<float>& paddle,
+    float delta)
 {
     // If keystroke up
     if (keyUp)
     {
-        paddle.y -= std::roundl(winten_constants::PADDLE_SPEED * delta);
+        paddle.y -= winten_constants::PADDLE_SPEED * delta;
         if (paddle.y < winten_constants::PADDLE_MIN_Y)
             paddle.y = winten_constants::PADDLE_MIN_Y;
     }
     // If keystroke down
     if (keyDown)
     {
-        paddle.y += std::roundl(winten_constants::PADDLE_SPEED * delta);
+        paddle.y += winten_constants::PADDLE_SPEED * delta;
         if (paddle.y > winten_constants::PADDLE_MAX_Y)
             paddle.y = winten_constants::PADDLE_MAX_Y;
     }
@@ -102,9 +102,9 @@ void CStateGame::updatePlayer(
 /// <param name="ball">Position of the ball.</param>
 /// <param name="delta">Difference in time between updates.</param>
 void CStateGame::updateNpc(
-    vector2d<double>& paddle, 
-    vector2d<double>& ball, 
-    double delta)
+    vector2d<float>& paddle,
+    vector2d<float>& ball,
+    float delta)
 {
     // If within visible horizon
     if (std::fabs(ball.x - paddle.x) <= winten_constants::NPC_HORIZON)
@@ -124,9 +124,9 @@ void CStateGame::updateNpc(
 /// </summary>
 /// <param name="paddle">The paddle location</param>
 /// <returns>True on collision.</returns>
-bool CStateGame::isCollision(vector2d<double>& paddle)
+bool CStateGame::isCollision(vector2d<float>& paddle)
 {
-    vector2d<double> distanceFromPaddle;
+    vector2d<float> distanceFromPaddle;
 
     distanceFromPaddle = paddle - ball;
 
@@ -139,15 +139,15 @@ bool CStateGame::isCollision(vector2d<double>& paddle)
 /// </summary>
 /// <param name="delta">Difference in time between updates.</param>
 /// <returns>True on collision with left or right surface.</returns>
-bool CStateGame::updateBall(double delta)
+bool CStateGame::updateBall(float delta)
 {
     bool result = false;
     float newX;
     float newY;
 
     // Calculate next position of the ball
-    newX = ball.x + cos((m_ballDirection ? std::_Pi_val : 0.0) + m_ballAngle) * m_ballSpeed * delta;
-    newY = ball.y + sin((m_ballDirection ? std::_Pi_val : 0.0) + m_ballAngle) * m_ballSpeed * delta;
+    newX = ball.x + cos((m_ballDirection ? winten_constants::PI : 0.0f) + m_ballAngle) * m_ballSpeed * delta;
+    newY = ball.y + sin((m_ballDirection ? winten_constants::PI : 0.0f) + m_ballAngle) * m_ballSpeed * delta;
 
     // If collission detected with top or bottom surfaces
     if (newY > winten_constants::BALL_MAX_Y)
@@ -190,7 +190,7 @@ bool CStateGame::updateBall(double delta)
         m_ballAngle = std::fmin(m_ballAngle, winten_constants::BALL_MAX_THETA);
         m_ballAngle = std::fmax(m_ballAngle, winten_constants::BALL_MIN_THETA);
 
-        newX = player.x - winten_constants::PADDLE_WIDTH / 2.0 - winten_constants::BALL_DIAMETER / 2.0 - 0.001;
+        newX = player.x - winten_constants::PADDLE_WIDTH / 2.0f - winten_constants::BALL_DIAMETER / 2.0f - 0.001f;
     }
     if (isCollision(npc))
     {
@@ -200,7 +200,7 @@ bool CStateGame::updateBall(double delta)
         m_ballAngle = std::fmin(m_ballAngle, winten_constants::BALL_MAX_THETA);
         m_ballAngle = std::fmax(m_ballAngle, winten_constants::BALL_MIN_THETA);
 
-        newX = npc.x + winten_constants::PADDLE_WIDTH / 2.0 + winten_constants::BALL_DIAMETER / 2.0 + 0.001;
+        newX = npc.x + winten_constants::PADDLE_WIDTH / 2.0f + winten_constants::BALL_DIAMETER / 2.0f + 0.001f;
     }
 
     // Update the position of the ball

@@ -28,6 +28,17 @@
 /// <param name="hWnd">Handle of window for view.</param>
 CViewGDI::CViewGDI(HWND hWnd)
     : m_hWnd(hWnd)
+    , m_hBitmapBackground(0)
+    , m_hBitmapBackgroundPrevious(0)
+    , m_hBitmapDraw(0)
+    , m_hBitmapDrawPrevious(0)
+    , m_hdcBackground(0)
+    , m_hdcBuffer(0)
+    , m_needErase(true)
+    , m_viewportHeight(0)
+    , m_viewportWidth(0)
+    , m_viewportXOffset(0)
+    , m_viewportYOffset(0)
 {
     // Initialize GDI+.
     Gdiplus::GdiplusStartup(&m_gdiplusToken, &m_gdiplusStartupInput, NULL);
@@ -96,15 +107,15 @@ void CViewGDI::initialize(int newXOffset, int newYOffset, int newWidth, int newH
         m_brushBlack.get(),
         newWidth * winten_constants::FIELD_BORDER,
         newHeight * winten_constants::FIELD_BORDER,
-        newWidth * (1.0 - 2.0 * winten_constants::FIELD_BORDER),
-        newHeight * (1.0 - 2.0 * winten_constants::FIELD_BORDER));
+        newWidth * (1.0f - 2.0f * winten_constants::FIELD_BORDER),
+        newHeight * (1.0f - 2.0f * winten_constants::FIELD_BORDER));
 
     // Reset graphics objects
     m_graphics.reset(new Gdiplus::Graphics(m_hdcBuffer));
     m_font.reset(
         new Gdiplus::Font(
             m_fontFamily.get(), 
-            newWidth * 24.0 / 640.0, 
+            newWidth * 24.0f / 640.0f,
             Gdiplus::FontStyleRegular, 
             Gdiplus::UnitPixel));
 
@@ -151,10 +162,9 @@ void CViewGDI::shutdown(void)
 /// <param name="latency">Latency for display.</param>
 void CViewGDI::DrawAll(
     IState* state,
-    long double fps,
-    long double latency) 
+    float fps,
+    float latency) 
 {
-    PAINTSTRUCT ps;
     HDC hdc;
 
     // Attempt to get exclusive access to GDI resources
@@ -172,8 +182,8 @@ void CViewGDI::DrawAll(
             // Draw player
             m_graphics->FillRectangle(
                 m_brushGreen.get(),
-                (state->player.x - winten_constants::PADDLE_WIDTH / 2) * m_viewportWidth,
-                (state->player.y - winten_constants::PADDLE_HEIGHT / 2) * m_viewportHeight,
+                (state->player.x - winten_constants::PADDLE_WIDTH / 2.0f) * m_viewportWidth,
+                (state->player.y - winten_constants::PADDLE_HEIGHT / 2.0f) * m_viewportHeight,
                 winten_constants::PADDLE_WIDTH * m_viewportWidth,
                 winten_constants::PADDLE_HEIGHT * m_viewportHeight);
 

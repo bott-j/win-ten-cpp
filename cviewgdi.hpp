@@ -69,8 +69,8 @@ public:
     void shutdown(void) override;
     void DrawAll(
         IState* state,
-        long double fps,
-        long double latency) override;
+        float fps,
+        float latency) override;
 };
 
 #endif
