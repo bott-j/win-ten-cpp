@@ -27,6 +27,7 @@
 class CStateGame : public IState
 {
 private:
+    // State of ball velocity
     double m_ballSpeed;
     double m_ballAngle;
     bool m_ballDirection;

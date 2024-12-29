@@ -29,19 +29,22 @@
 class ContextController
 {
 private:
+	// Smart pointer to current state
 	std::unique_ptr<IState> m_state;
+	std::unique_ptr<IView> m_view;
+	// Timing and performance monitoring
 	long double m_lastTime;
 	long double m_latency;
+	// Key state
 	bool m_keyUp;
 	bool m_keyDown;
 	bool m_keyEscape;
 	bool m_keyPressed;
 
 public:
-	std::unique_ptr<IView> m_view;
-	ContextController(IState* state);
+	ContextController(void);
 	void setView(std::unique_ptr<IView> view);
-	void transitionTo(IState* state);
+	void transitionTo(std::unique_ptr<IState> state);
 	void update(long double thisTime);
 	void keyDown(bool state);
 	void keyUp(bool state);
