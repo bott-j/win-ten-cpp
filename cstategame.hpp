@@ -28,14 +28,14 @@ class CStateGame : public IState
 {
 private:
     // State of ball velocity
-    double m_ballSpeed;
-    double m_ballAngle;
+    float m_ballSpeed;
+    float m_ballAngle;
     bool m_ballDirection;
 
 public:
     CStateGame();
     IState* update(
-        double deltaT,
+        float deltaT,
         bool keyUp,
         bool keyDown,
         bool keyEscape,
@@ -44,16 +44,16 @@ public:
     void updatePlayer(
         bool keyUp, 
         bool keyDown, 
-        vector2d<double>& paddle, 
-        double delta);
+        vector2d<float>& paddle, 
+        float delta);
     // Handle NPC paddle
     void updateNpc(
-        vector2d<double>& paddle, 
-        vector2d<double>& ball, 
-        double delta);
-    bool isCollision(vector2d<double>& paddle);
+        vector2d<float>& paddle,
+        vector2d<float>& ball,
+        float delta);
+    bool isCollision(vector2d<float>& paddle);
     // Handle dynamics of ball
-    bool updateBall(double delta);
+    bool updateBall(float delta);
 };
 
 #endif

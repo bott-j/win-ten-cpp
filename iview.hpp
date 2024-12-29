@@ -27,8 +27,8 @@ class IView
 public:
 	virtual void DrawAll(
 		IState* state,
-		long double fps,
-		long double latency) = 0;
+		float fps,
+		float latency) = 0;
 	virtual void initialize(
 		int newXOffset,
 		int newYOffset,

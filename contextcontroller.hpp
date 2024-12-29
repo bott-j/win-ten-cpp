@@ -34,7 +34,7 @@ private:
 	std::unique_ptr<IView> m_view;
 	// Timing and performance monitoring
 	long double m_lastTime;
-	long double m_latency;
+	float m_latency;
 	// Key state
 	bool m_keyUp;
 	bool m_keyDown;

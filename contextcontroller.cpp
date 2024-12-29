@@ -58,7 +58,7 @@ void ContextController::transitionTo(std::unique_ptr<IState> state)
 void ContextController::update(long double thisTime)
 {
 	// Time difference
-	long double deltaT = thisTime - m_lastTime;
+	float deltaT = static_cast<float>(thisTime - m_lastTime);
 
 	// Update the current state
 	if (m_lastTime != 0)
@@ -72,7 +72,7 @@ void ContextController::update(long double thisTime)
 	}
 
 	// Render the current state
-	m_view->DrawAll(m_state.get(), 1 / deltaT, m_latency);
+	m_view->DrawAll(m_state.get(), 1.0f / deltaT, m_latency);
 
 	// Save time for future update
 	m_lastTime = thisTime;
@@ -123,7 +123,7 @@ void ContextController::keyPressed(void)
 /// <param name="timeAfterUpdate">Timestamp in seconds after update.</param>
 void ContextController::setAfterUpdateTime(long double timeAfterUpdate)
 {
-	m_latency = timeAfterUpdate - m_lastTime;
+	m_latency = static_cast<float>(timeAfterUpdate - m_lastTime);
 }
 
 /// <summary>
