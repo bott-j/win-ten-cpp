@@ -22,7 +22,7 @@
 // C RunTime Header Files
 #include <stdlib.h>
 #include <malloc.h>
-#include <memory.h>
+#include <memory>
 #include <tchar.h>
 #include <windows.h>
 #include <objidl.h>
@@ -67,18 +67,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+    ContextController controller; // Controller context object in local scope
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_WINTEN, szWindowClass, MAX_LOADSTRING);
 
+    // Register window class
     MyRegisterClass(hInstance);
 
-    // Create controller context
-    ContextController controller(new CStateGame());
-
     // Perform application initialization:
-    HWND hWnd = InitInstance(hInstance, nCmdShow,&controller);
+    HWND hWnd = InitInstance(hInstance, nCmdShow, &controller);
     if (!hWnd)
     {
         return FALSE;
@@ -86,11 +85,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINTEN));
 
-    // Create view
-    CViewGDI view(hWnd);
+    // Create initial state and register with context
+    controller.transitionTo(
+        std::move(
+            std::make_unique<CStateGame>()
+        )
+    );  
 
     // Set a timer for world update and rendering
-    timeSetEvent(15, 0, gameTimer, (DWORD_PTR) & controller, TIME_PERIODIC);
+    timeSetEvent(
+        15, 
+        0, 
+        gameTimer, 
+        (DWORD_PTR) & controller, 
+        TIME_PERIODIC);
 
     // Main message loop:
     MSG msg;
@@ -293,10 +301,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         
         // Create the view and register with controller
         std::unique_ptr<IView> pView(new CViewGDI(hWnd));
-        std::unique_ptr<IView> p2;
-        p2 = std::move(pView);
-
-        controller->setView(std::move(p2));
+        controller->setView(std::move(pView));
         controller->initialize(0, 0, create->cx, create->cy);
     }
 

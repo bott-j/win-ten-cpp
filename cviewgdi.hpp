@@ -36,26 +36,30 @@
 class CViewGDI : public IView
 {
 private:
-    Gdiplus::GdiplusStartupInput m_gdiplusStartupInput;
-    ULONG_PTR           m_gdiplusToken;
-    int m_viewportHeight;
-    int m_viewportWidth;
-    int m_viewportXOffset;
-    int m_viewportYOffset;
-    bool m_needErase;
-    std::unique_ptr<Gdiplus::Graphics> m_graphics;
+    // Handle of owning window
     HWND m_hWnd;
+    // Window resources allocated
     HDC m_hdcBuffer;
     HDC m_hdcBackground;
     HBITMAP m_hBitmapDrawPrevious;
     HBITMAP m_hBitmapDraw;
     HBITMAP m_hBitmapBackground;
     HBITMAP m_hBitmapBackgroundPrevious;
+    // GDI resources allocated
+    std::unique_ptr<Gdiplus::Graphics> m_graphics;
     std::unique_ptr<Gdiplus::SolidBrush> m_brushGreen;
     std::unique_ptr<Gdiplus::SolidBrush> m_brushBlack;
     std::unique_ptr<Gdiplus::FontFamily> m_fontFamily;
     std::unique_ptr<Gdiplus::Font> m_font;
     std::unique_ptr<Gdiplus::PointF> m_pointF;
+    Gdiplus::GdiplusStartupInput m_gdiplusStartupInput;
+    ULONG_PTR           m_gdiplusToken;
+    // Internal state
+    int m_viewportHeight;
+    int m_viewportWidth;
+    int m_viewportXOffset;
+    int m_viewportYOffset;
+    bool m_needErase;
     std::mutex gdiUpdateMutex;
 
 public:

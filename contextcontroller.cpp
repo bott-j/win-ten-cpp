@@ -21,8 +21,8 @@
 ///		Class constructor.
 /// </summary>
 /// <param name="state">The initial state object.</param>
-ContextController::ContextController(IState* state)
-	: m_state(state)
+ContextController::ContextController(void)
+	: m_state()
 	, m_view()
 	, m_lastTime(0)
 	, m_latency(0)
@@ -39,18 +39,16 @@ ContextController::ContextController(IState* state)
 void ContextController::setView(std::unique_ptr<IView> view)
 {
 	// Replace view
-	std::unique_ptr<IView> p2;
-	p2 = std::move(view);
-	this->m_view = std::move(p2);// = std::move(view);
+	this->m_view = std::move(view);
 }
 
 /// <summary>
 ///		Transition the context state.
 /// </summary>
 /// <param name="state">The new state.</param>
-void ContextController::transitionTo(IState* state)
+void ContextController::transitionTo(std::unique_ptr<IState> state)
 {
-	m_state.reset(state);
+	m_state = std::move(state);
 }
 
 /// <summary>
@@ -63,13 +61,15 @@ void ContextController::update(long double thisTime)
 	long double deltaT = thisTime - m_lastTime;
 
 	// Update the current state
-	if (!m_lastTime == 0)
+	if (m_lastTime != 0)
+	{
 		m_state->update(
 			deltaT,
 			m_keyUp,
 			m_keyDown,
 			m_keyEscape,
 			m_keyPressed);
+	}
 
 	// Render the current state
 	m_view->DrawAll(m_state.get(), 1 / deltaT, m_latency);
