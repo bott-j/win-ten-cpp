@@ -57,18 +57,26 @@ void ContextController::transitionTo(std::unique_ptr<IState> state)
 /// <param name="thisTime">Current timestamp in seconds.</param>
 void ContextController::update(long double thisTime)
 {
+	std::unique_ptr<IState> nextState;
+
 	// Time difference
 	float deltaT = static_cast<float>(thisTime - m_lastTime);
 
 	// Update the current state
 	if (m_lastTime != 0)
 	{
-		m_state->update(
-			deltaT,
-			m_keyUp,
-			m_keyDown,
-			m_keyEscape,
-			m_keyPressed);
+		nextState = std::move(
+			m_state->update(
+				deltaT,
+				m_keyUp,
+				m_keyDown,
+				m_keyEscape,
+				m_keyPressed
+			)
+		);
+
+		if (nextState.get() != nullptr)
+			this->transitionTo(nextState);
 	}
 
 	// Render the current state

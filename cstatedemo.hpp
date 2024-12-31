@@ -13,8 +13,11 @@
 * You should have received a copy of the GNU General Public License along with
 * this program. If not, see <https://www.gnu.org/licenses/>.
 */
-#ifndef WINTEN_CSTATEGAME_HPP
-#define WINTEN_CSTATEGAME_HPP
+#ifndef WINTEN_CSTATEDEMO_HPP
+#define WINTEN_CSTATEDEMO_HPP
+
+// Include external header fiels
+#include <memory>
 
 // Include project header files
 #include "istate.hpp"
@@ -23,7 +26,7 @@
 /// <summary>
 ///     Implements the player vs NPC game state.
 /// </summary>
-class CStateGame : public IState
+class CStateDemo : public IState
 {
 private:
     // State of ball velocity
@@ -32,7 +35,7 @@ private:
     bool m_ballDirection;
 
 public:
-    CStateGame();
+    CStateDemo();
     std::unique_ptr<IState> update(
         float deltaT,
         bool keyUp,
@@ -41,9 +44,9 @@ public:
         bool keyPressed) override;
     // Handle keystroke movement of paddle
     void updatePlayer(
-        bool keyUp, 
-        bool keyDown, 
-        vector2d<float>& paddle, 
+        bool keyUp,
+        bool keyDown,
+        vector2d<float>& paddle,
         float delta);
     // Handle NPC paddle
     void updateNpc(

@@ -17,6 +17,7 @@
 #define WINTEN_ISTATE_HPP
 
 // Include external header files
+#include <memory>
 #include <string>
 
 // Include project header files
@@ -35,8 +36,10 @@ public:
 	int scorePlayer;
 	int scoreNpc;
 
-	virtual IState *update(
+	virtual std::unique_ptr<IState> update(
 		float deltaT,
+		int scorePlayer,
+		int scoreNpc,
 		bool keyUp,
 		bool keyDown,
 		bool keyEscape,
