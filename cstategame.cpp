@@ -18,8 +18,8 @@
 #include <random>
 
 // include project header files
-#include "cstatedemo.hpp"
 #include "cstategame.hpp"
+#include "cstateintro.hpp"
 #include "winten_constants.hpp"
 #include "vector2d.hpp"
 
@@ -62,10 +62,11 @@ std::unique_ptr<IState> CStateGame::update(
 {
     std::unique_ptr<IState> nextState(nullptr);
 
+    // If game is one go back to the intro screen
     if (scorePlayer >= 5
         || scoreNpc >= 5)
     {
-        nextState = std::move(std::make_unique<CStateDemo>());
+        nextState = std::move(std::make_unique<CStateIntro>());
     }
     else
     {

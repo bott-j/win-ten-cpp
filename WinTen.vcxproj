@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="cstatedemo.hpp" />
     <ClInclude Include="cstategame.hpp" />
+    <ClInclude Include="cstateintro.hpp" />
     <ClInclude Include="istate.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="contextcontroller.hpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="contextcontroller.cpp" />
     <ClCompile Include="cstatedemo.cpp" />
     <ClCompile Include="cstategame.cpp" />
+    <ClCompile Include="cstateintro.cpp" />
     <ClCompile Include="cviewgdi.cpp" />
     <ClCompile Include="winten.cpp" />
   </ItemGroup>
