@@ -51,7 +51,6 @@ private:
     std::unique_ptr<Gdiplus::SolidBrush> m_brushBlack;
     std::unique_ptr<Gdiplus::FontFamily> m_fontFamily;
     std::unique_ptr<Gdiplus::Font> m_font;
-    std::unique_ptr<Gdiplus::PointF> m_pointF;
     Gdiplus::GdiplusStartupInput m_gdiplusStartupInput;
     ULONG_PTR           m_gdiplusToken;
     // Internal state
@@ -59,6 +58,7 @@ private:
     int m_viewportWidth;
     int m_viewportXOffset;
     int m_viewportYOffset;
+    float m_scaling;
     bool m_needErase;
     std::mutex gdiUpdateMutex;
 

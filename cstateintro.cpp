@@ -29,25 +29,24 @@
 ///     Default class constructor.
 /// </summary>
 CStateIntro::CStateIntro()
-    : m_startTime(0)
+    : m_ballDirection(false)
+    , m_ballAngle(0)
+    , m_ballSpeed(winten_constants::BALL_SPEED)
+    , m_startTime(0)
 {
+    // Initialise coordinates
     npc.x = winten_constants::PADDLE_X_NPC;
-    npc.y = 0.5;
+    npc.y = winten_constants::H / 2.0f;
     player.x = winten_constants::PADDLE_X_PLAYER;
-    player.y = 0.5;
-    ball.x = 0.5;
-    ball.y = 0.5;
-    m_ballDirection = false;
-    m_ballAngle = 0;
-    m_ballSpeed = winten_constants::BALL_SPEED;
-    scoreNpc = 0;
-    scorePlayer = 0;
+    player.y = winten_constants::H / 2.0f;
+    ball.x = winten_constants::W / 2.0f;
+    ball.y = winten_constants::H / 2.0f;
 
     // Save the start time in this state
     m_startTime = std::time(0);
 
     // Set the intro screen message
-    message = "        WINTEN\nPRESS KEY TO START";
+    message = "           WINTEN\nPRESS KEY TO START";
     
     // Seed the random number generator with current time
     std::srand(static_cast<unsigned int>(std::time(0)));
@@ -83,7 +82,7 @@ std::unique_ptr<IState> CStateIntro::update(
         return nextState;
     }
     // If timeout transition to demo game
-    else if ((thisTime - m_startTime) > 10)
+    else if ((thisTime - m_startTime) > winten_constants::DELAY_DEMO)
     {
         nextState = std::move(std::make_unique<CStateDemo>());
         // Enter the player-vs-npc state

@@ -36,6 +36,10 @@ public:
 	int scorePlayer;
 	int scoreNpc;
 
+	IState(void)
+		: scorePlayer(0)
+		, scoreNpc(0) {}
+
 	virtual std::unique_ptr<IState> update(
 		float deltaT,
 		bool keyUp,
