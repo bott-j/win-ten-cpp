@@ -32,7 +32,7 @@
 
 // Include project headers
 #include "contextcontroller.hpp"
-#include "cstategame.hpp"
+#include "cstatedemo.hpp"
 #include "cviewgdi.hpp"
 #include "winten.h"
 #include "winten_constants.hpp"
@@ -88,7 +88,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // Create initial state and register with context
     controller.transitionTo(
         std::move(
-            std::make_unique<CStateGame>()
+            std::make_unique<CStateDemo>()
         )
     );  
 

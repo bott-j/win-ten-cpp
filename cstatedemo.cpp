@@ -26,7 +26,7 @@
 /// <summary>
 ///     Default class constructor.
 /// </summary>
-CStateGame::CStateGame()
+CStateDemo::CStateDemo()
 {
     npc.x = winten_constants::PADDLE_X_NPC;
     npc.y = 0.5;
@@ -53,23 +53,25 @@ CStateGame::CStateGame()
 /// <param name="keyEscape">State of the escape key.</param>
 /// <param name="keyPressed">True if any key pressed.</param>
 /// <returns>The next state.</returns>
-std::unique_ptr<IState> CStateGame::update(
+std::unique_ptr<IState> CStateDemo::update(
     float deltaT,
     bool keyUp,
     bool keyDown,
     bool keyEscape,
-    bool keyPressed) 
+    bool keyPressed)
 {
     std::unique_ptr<IState> nextState(nullptr);
 
-    if (scorePlayer >= 5
-        || scoreNpc >= 5)
+    if (keyPressed)
     {
-        nextState = std::move(std::make_unique<CStateDemo>());
+        nextState = std::move(std::make_unique<CStateGame>());
+        // Enter the player-vs-npc state
+        return nextState;
     }
     else
     {
-        updatePlayer(keyUp, keyDown, player, deltaT);
+        //updatePlayer(keyUp, keyDown, _paddlePlayer);
+        updateNpc(player, ball, deltaT);
         updateNpc(npc, ball, deltaT);
         updateBall(deltaT);
     }
@@ -84,9 +86,9 @@ std::unique_ptr<IState> CStateGame::update(
 /// <param name="keyDown">Key down state.</param>
 /// <param name="paddle">Paddle location.</param>
 /// <param name="delta">Difference in time between updates.</param>
-void CStateGame::updatePlayer(
-    bool keyUp, 
-    bool keyDown, 
+void CStateDemo::updatePlayer(
+    bool keyUp,
+    bool keyDown,
     vector2d<float>& paddle,
     float delta)
 {
@@ -112,7 +114,7 @@ void CStateGame::updatePlayer(
 /// <param name="paddle">Position of the NPC paddle.</param>
 /// <param name="ball">Position of the ball.</param>
 /// <param name="delta">Difference in time between updates.</param>
-void CStateGame::updateNpc(
+void CStateDemo::updateNpc(
     vector2d<float>& paddle,
     vector2d<float>& ball,
     float delta)
@@ -135,7 +137,7 @@ void CStateGame::updateNpc(
 /// </summary>
 /// <param name="paddle">The paddle location</param>
 /// <returns>True on collision.</returns>
-bool CStateGame::isCollision(vector2d<float>& paddle)
+bool CStateDemo::isCollision(vector2d<float>& paddle)
 {
     vector2d<float> distanceFromPaddle;
 
@@ -150,7 +152,7 @@ bool CStateGame::isCollision(vector2d<float>& paddle)
 /// </summary>
 /// <param name="delta">Difference in time between updates.</param>
 /// <returns>True on collision with left or right surface.</returns>
-bool CStateGame::updateBall(float delta)
+bool CStateDemo::updateBall(float delta)
 {
     bool result = false;
     float newX;
