@@ -19,7 +19,7 @@
 
 // include project header files
 #include "cstatedemo.hpp"
-#include "cstategame.hpp"
+#include "cstateintro.hpp"
 #include "winten_constants.hpp"
 #include "vector2d.hpp"
 
@@ -64,8 +64,8 @@ std::unique_ptr<IState> CStateDemo::update(
 
     if (keyPressed)
     {
-        nextState = std::move(std::make_unique<CStateGame>());
-        // Enter the player-vs-npc state
+        nextState = std::move(std::make_unique<CStateIntro>());
+        // Enter the intro screen state
         return nextState;
     }
     else

@@ -17,6 +17,7 @@
 #define WINTEN_CStateIntro_HPP
 
 // Include external header fiels
+#include <ctime>
 #include <memory>
 
 // Include project header files
@@ -33,6 +34,7 @@ private:
     float m_ballSpeed;
     float m_ballAngle;
     bool m_ballDirection;
+    std::time_t m_startTime;
 
 public:
     CStateIntro();

@@ -16,6 +16,7 @@
 // Include external header files
 #include <memory>
 #include <random>
+#include <ctime>
 
 // include project header files
 #include "cstatedemo.hpp"
@@ -28,6 +29,7 @@
 ///     Default class constructor.
 /// </summary>
 CStateIntro::CStateIntro()
+    : m_startTime(0)
 {
     npc.x = winten_constants::PADDLE_X_NPC;
     npc.y = 0.5;
@@ -41,8 +43,12 @@ CStateIntro::CStateIntro()
     scoreNpc = 0;
     scorePlayer = 0;
 
-    message = "WINTEN\nPRESS KEY TO START";
+    // Save the start time in this state
+    m_startTime = std::time(0);
 
+    // Set the intro screen message
+    message = "        WINTEN\nPRESS KEY TO START";
+    
     // Seed the random number generator with current time
     std::srand(static_cast<unsigned int>(std::time(0)));
 }
@@ -64,6 +70,10 @@ std::unique_ptr<IState> CStateIntro::update(
     bool keyPressed)
 {
     std::unique_ptr<IState> nextState(nullptr);
+    std::time_t thisTime;
+
+    // Get the current time
+    thisTime = std::time(0);
 
     // If key pressed transition to player-vs-npc game
     if (keyPressed)
@@ -73,7 +83,7 @@ std::unique_ptr<IState> CStateIntro::update(
         return nextState;
     }
     // If timeout transition to demo game
-    else if (false)
+    else if ((thisTime - m_startTime) > 10)
     {
         nextState = std::move(std::make_unique<CStateDemo>());
         // Enter the player-vs-npc state

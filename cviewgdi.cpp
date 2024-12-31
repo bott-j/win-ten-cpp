@@ -212,6 +212,8 @@ void CViewGDI::DrawAll(
             scoreNpcText << state->scoreNpc;
             std::wostringstream scorePlayerText;
             scorePlayerText << state->scorePlayer;
+            std::wostringstream messageText;
+            messageText << state->message.c_str();
 
             // Draw text in window
             m_graphics->DrawString(
@@ -237,6 +239,12 @@ void CViewGDI::DrawAll(
                 -1,
                 m_font.get(),
                 Gdiplus::PointF(560.0f, 10.0f),
+                m_brushGreen.get());
+            m_graphics->DrawString(
+                messageText.str().c_str(),
+                -1,
+                m_font.get(),
+                Gdiplus::PointF(300.0f, 150.0f),
                 m_brushGreen.get());
 
             // Copy the buffer hdc to the window hdc
