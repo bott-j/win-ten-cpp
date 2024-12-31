@@ -48,6 +48,12 @@ namespace winten_constants {
 	const float NPC_HORIZON = 0.3f * W;
 	// Number of second before demo starts in intro screen
 	const time_t DELAY_DEMO = 10; 
+	// Text
+	const float SCORE_TEXT_NPC = 40.0f;
+	const float SCORE_TEXT_PLAYER = W - 50.0f;
+	const float SCORE_TEXT_Y = 40.0f;
+	const float MESSAGE_TEXT_X = 200.0f;
+	const float MESSAGE_TEXT_Y = 180.0f;
 }
 
 #endif

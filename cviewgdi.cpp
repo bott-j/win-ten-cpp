@@ -47,7 +47,6 @@ CViewGDI::CViewGDI(HWND hWnd)
     // Draw field
     m_brushGreen.reset(new Gdiplus::SolidBrush((Gdiplus::Color(255, 0, 255, 0))));
     m_brushBlack.reset(new Gdiplus::SolidBrush((Gdiplus::Color(255, 0, 0, 0))));
-    m_pointF.reset(new Gdiplus::PointF(30.0f, 10.0f));
     
     // Font will be scaled and recreated during resize
     m_fontFamily.reset(new Gdiplus::FontFamily(L"Times New Roman"));
@@ -118,7 +117,7 @@ void CViewGDI::initialize(int newXOffset, int newYOffset, int newWidth, int newH
     m_font.reset(
         new Gdiplus::Font(
             m_fontFamily.get(), 
-            newWidth * 24.0f / 640.0f,
+            24.0f * m_scaling,
             Gdiplus::FontStyleRegular, 
             Gdiplus::UnitPixel));
 
@@ -207,10 +206,10 @@ void CViewGDI::DrawAll(
                 winten_constants::BALL_DIAMETER * m_scaling);
 
             // Convert numeric values to string 
-            std::wostringstream timetext;
-            timetext << L"FPS: " << std::setprecision(4) << fps;
-            std::wostringstream time2text;
-            time2text << L"LAT: " << std::setprecision(4) << latency;
+            std::wostringstream fpsText;
+            fpsText << L"FPS: " << std::setprecision(4) << fps;
+            std::wostringstream latencyText;
+            latencyText << L"LAT: " << std::setprecision(4) << latency;
             std::wostringstream scoreNpcText;
             scoreNpcText << state->scoreNpc;
             std::wostringstream scorePlayerText;
@@ -223,31 +222,31 @@ void CViewGDI::DrawAll(
                 scoreNpcText.str().c_str(),
                 -1,
                 m_font.get(),
-                Gdiplus::PointF(40.0f, 10.0f),
+                Gdiplus::PointF(winten_constants::SCORE_TEXT_NPC * m_scaling, winten_constants::SCORE_TEXT_Y * m_scaling),
                 m_brushGreen.get());
             m_graphics->DrawString(
-                timetext.str().c_str(),
+                fpsText.str().c_str(),
                 -1,
                 m_font.get(),
-                Gdiplus::PointF(300.0f, 10.0f),
+                Gdiplus::PointF(winten_constants::SCORE_TEXT_NPC * m_scaling, 2.0f * winten_constants::SCORE_TEXT_Y * m_scaling),
                 m_brushGreen.get());
             m_graphics->DrawString(
-                time2text.str().c_str(),
+                latencyText.str().c_str(),
                 -1,
                 m_font.get(),
-                Gdiplus::PointF(300.0f, 40.0f),
+                Gdiplus::PointF(winten_constants::SCORE_TEXT_NPC * m_scaling, 3.0f * winten_constants::SCORE_TEXT_Y * m_scaling),
                 m_brushGreen.get());
             m_graphics->DrawString(
                 scorePlayerText.str().c_str(),
                 -1,
                 m_font.get(),
-                Gdiplus::PointF(560.0f, 10.0f),
+                Gdiplus::PointF(winten_constants::SCORE_TEXT_PLAYER * m_scaling, winten_constants::SCORE_TEXT_Y * m_scaling),
                 m_brushGreen.get());
             m_graphics->DrawString(
                 messageText.str().c_str(),
                 -1,
                 m_font.get(),
-                Gdiplus::PointF(300.0f, 150.0f),
+                Gdiplus::PointF(winten_constants::MESSAGE_TEXT_X * m_scaling, winten_constants::MESSAGE_TEXT_Y * m_scaling),
                 m_brushGreen.get());
 
             // Copy the buffer hdc to the window hdc
