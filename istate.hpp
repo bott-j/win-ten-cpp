@@ -38,8 +38,6 @@ public:
 
 	virtual std::unique_ptr<IState> update(
 		float deltaT,
-		int scorePlayer,
-		int scoreNpc,
 		bool keyUp,
 		bool keyDown,
 		bool keyEscape,

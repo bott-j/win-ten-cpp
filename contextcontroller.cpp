@@ -76,7 +76,7 @@ void ContextController::update(long double thisTime)
 		);
 
 		if (nextState.get() != nullptr)
-			this->transitionTo(nextState);
+			this->transitionTo(std::move(nextState));
 	}
 
 	// Render the current state
