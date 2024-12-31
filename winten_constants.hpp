@@ -19,33 +19,33 @@
 #include <ctime>
 
 namespace winten_constants {
-	
-	// Field
-	const float FIELD_BORDER = 0.025f;
-
-	// Paddle
-	const float PADDLE_HEIGHT = 0.15f;
-	const float PADDLE_WIDTH = 0.015f;
-	const float PADDLE_MAX_Y = 1.0f - 0.0075f - 0.15f;
-	const float PADDLE_MIN_Y = 0.0075f + 0.15f;
-	const float PADDLE_SPEED = 0.5f;
-	const float PADDLE_X_NPC = 0.1f;
-	const float PADDLE_X_PLAYER = 0.9f;
-
-	// Ball
-	const float BALL_DIAMETER = 0.015f;
-	const float BALL_MAX_X = 1.0f - 0.015f/2.0f - 0.05f;
-	const float BALL_MIN_X = 0.015f/2.0f + 0.05f;
-	const float BALL_MAX_Y = 1.0f - 0.015f/2.0f - 0.05f;
-	const float BALL_MIN_Y = 0.015f/2.0f + 0.05f;
-
-	const float BALL_MAX_THETA = 3.14f / 3.0f;
-	const float BALL_MIN_THETA = -3.14f / 3.0f;
-	const float BALL_SPEED = 0.5f;
-	const float BALL_ANGLE_NOISE = -3.14f / 10.0f;
-	const float NPC_HORIZON = 0.3f;
+	// General
 	const float PI = 3.141592654f;
-	const float ASPECT_RATIO = 640.0f / 480.0f;
+	// Canvas size
+	const float W = 640.0f;
+	const float H = 480.0f;
+	const float ASPECT_RATIO =  W / H;
+	// Border
+	const float FIELD_BORDER = 15.0f;
+	// Paddle
+	const float PADDLE_HEIGHT = 40.0f;
+	const float PADDLE_WIDTH = 10.0f;
+	const float PADDLE_MAX_Y = H - FIELD_BORDER - PADDLE_HEIGHT/2.0f;
+	const float PADDLE_MIN_Y = FIELD_BORDER + PADDLE_HEIGHT/2.0f;
+	const float PADDLE_SPEED = H / 2.0f;
+	const float PADDLE_X_NPC = 2.0f * FIELD_BORDER;
+	const float PADDLE_X_PLAYER = W - 2.0f * FIELD_BORDER;
+	// Ball
+	const float BALL_DIAMETER = 10.0f;
+	const float BALL_MAX_X = W - BALL_DIAMETER/2.0f - FIELD_BORDER;
+	const float BALL_MIN_X = BALL_DIAMETER/2.0f + FIELD_BORDER;
+	const float BALL_MAX_Y = H - BALL_DIAMETER / 2.0f - FIELD_BORDER;
+	const float BALL_MIN_Y = BALL_DIAMETER / 2.0f + FIELD_BORDER;
+	const float BALL_MAX_THETA = PI / 3.0f;
+	const float BALL_MIN_THETA = -PI / 3.0f;
+	const float BALL_SPEED = W/2.0f;
+	const float BALL_ANGLE_NOISE = -PI / 10.0f;
+	const float NPC_HORIZON = 0.3f * W;
 	// Number of second before demo starts in intro screen
 	const time_t DELAY_DEMO = 10; 
 }

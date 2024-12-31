@@ -59,6 +59,7 @@ private:
     int m_viewportWidth;
     int m_viewportXOffset;
     int m_viewportYOffset;
+    float m_scaling;
     bool m_needErase;
     std::mutex gdiUpdateMutex;
 

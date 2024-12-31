@@ -39,6 +39,7 @@ CViewGDI::CViewGDI(HWND hWnd)
     , m_viewportWidth(0)
     , m_viewportXOffset(0)
     , m_viewportYOffset(0)
+    , m_scaling(0)
 {
     // Initialize GDI+.
     Gdiplus::GdiplusStartup(&m_gdiplusToken, &m_gdiplusStartupInput, NULL);
@@ -82,6 +83,8 @@ void CViewGDI::initialize(int newXOffset, int newYOffset, int newWidth, int newH
     m_viewportHeight = newHeight;
     m_viewportXOffset = newXOffset;
     m_viewportYOffset = newYOffset;
+    // Calculate scaling
+    m_scaling = static_cast<float>(m_viewportWidth) / winten_constants::W;
     // Create a new device context
     m_hdcBuffer = CreateCompatibleDC(hdcWindow);
     // Create a new device context
@@ -105,10 +108,10 @@ void CViewGDI::initialize(int newXOffset, int newYOffset, int newWidth, int newH
         newHeight);
     m_graphics->FillRectangle(
         m_brushBlack.get(),
-        newWidth * winten_constants::FIELD_BORDER,
-        newHeight * winten_constants::FIELD_BORDER,
-        newWidth * (1.0f - 2.0f * winten_constants::FIELD_BORDER),
-        newHeight * (1.0f - 2.0f * winten_constants::FIELD_BORDER));
+        winten_constants::FIELD_BORDER * m_scaling,
+        winten_constants::FIELD_BORDER * m_scaling,
+        (winten_constants::W - 2.0f * winten_constants::FIELD_BORDER) * m_scaling,
+        (winten_constants::H - 2.0f * winten_constants::FIELD_BORDER) * m_scaling);
 
     // Reset graphics objects
     m_graphics.reset(new Gdiplus::Graphics(m_hdcBuffer));
@@ -182,26 +185,26 @@ void CViewGDI::DrawAll(
             // Draw player
             m_graphics->FillRectangle(
                 m_brushGreen.get(),
-                (state->player.x - winten_constants::PADDLE_WIDTH / 2.0f) * m_viewportWidth,
-                (state->player.y - winten_constants::PADDLE_HEIGHT / 2.0f) * m_viewportHeight,
-                winten_constants::PADDLE_WIDTH * m_viewportWidth,
-                winten_constants::PADDLE_HEIGHT * m_viewportHeight);
+                (state->player.x - winten_constants::PADDLE_WIDTH / 2.0f) * m_scaling,
+                (state->player.y - winten_constants::PADDLE_HEIGHT / 2.0f) * m_scaling,
+                winten_constants::PADDLE_WIDTH * m_scaling,
+                winten_constants::PADDLE_HEIGHT * m_scaling);
 
             // Draw NPC
             m_graphics->FillRectangle(
                 m_brushGreen.get(),
-                (state->npc.x - winten_constants::PADDLE_WIDTH / 2) * m_viewportWidth,
-                (state->npc.y - winten_constants::PADDLE_HEIGHT / 2) * m_viewportHeight,
-                winten_constants::PADDLE_WIDTH * m_viewportWidth,
-                winten_constants::PADDLE_HEIGHT * m_viewportHeight);
+                (state->npc.x - winten_constants::PADDLE_WIDTH / 2) * m_scaling,
+                (state->npc.y - winten_constants::PADDLE_HEIGHT / 2) * m_scaling,
+                winten_constants::PADDLE_WIDTH * m_scaling,
+                winten_constants::PADDLE_HEIGHT * m_scaling);
 
             // Draw ball
             m_graphics->FillEllipse(
                 m_brushGreen.get(),
-                (state->ball.x - winten_constants::BALL_DIAMETER / 2) * m_viewportWidth,
-                (state->ball.y - winten_constants::BALL_DIAMETER / 2) * m_viewportHeight,
-                winten_constants::BALL_DIAMETER * m_viewportWidth,
-                winten_constants::BALL_DIAMETER * m_viewportWidth);
+                (state->ball.x - winten_constants::BALL_DIAMETER / 2) * m_scaling,
+                (state->ball.y - winten_constants::BALL_DIAMETER / 2) * m_scaling,
+                winten_constants::BALL_DIAMETER * m_scaling,
+                winten_constants::BALL_DIAMETER * m_scaling);
 
             // Convert numeric values to string 
             std::wostringstream timetext;
