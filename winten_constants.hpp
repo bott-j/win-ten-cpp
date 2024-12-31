@@ -16,6 +16,8 @@
 #ifndef WINTEN_WINTEN_CONSTANTS_HPP
 #define WINTEN_WINTEN_CONSTANTS_HPP
 
+#include <ctime>
+
 namespace winten_constants {
 	
 	// Field
@@ -44,6 +46,8 @@ namespace winten_constants {
 	const float NPC_HORIZON = 0.3f;
 	const float PI = 3.141592654f;
 	const float ASPECT_RATIO = 640.0f / 480.0f;
+	// Number of second before demo starts in intro screen
+	const time_t DELAY_DEMO = 10; 
 }
 
 #endif

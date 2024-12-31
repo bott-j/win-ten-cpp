@@ -83,7 +83,7 @@ std::unique_ptr<IState> CStateIntro::update(
         return nextState;
     }
     // If timeout transition to demo game
-    else if ((thisTime - m_startTime) > 10)
+    else if ((thisTime - m_startTime) > winten_constants::DELAY_DEMO)
     {
         nextState = std::move(std::make_unique<CStateDemo>());
         // Enter the player-vs-npc state
