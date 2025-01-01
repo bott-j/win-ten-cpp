@@ -46,7 +46,7 @@ CStateIntro::CStateIntro()
     m_startTime = std::time(0);
 
     // Set the intro screen message
-    message = "           WINTEN\nPRESS KEY TO START";
+    message = "         WIN-TENNIS\nPRESS KEY TO START";
     
     // Seed the random number generator with current time
     std::srand(static_cast<unsigned int>(std::time(0)));
