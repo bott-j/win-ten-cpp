@@ -277,11 +277,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             break;
         }
     }
-    return 0;
+        return 0;
     case WM_PAINT:
-
-        return 1;
-        break;
+        ValidateRect(hWnd,NULL);
+        return 0;
     case WM_DESTROY:
         // Stop timers
         timeKillEvent(TIMER_ID);
